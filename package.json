@@ -1,0 +1,24 @@
+{
+  "name": "uptasknode",
+  "version": "1.0.0",
+  "description": "Proyecto UptaskNode MVC curso",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./index.js"
+  },
+  "author": "ffespechen",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-validator": "^6.11.1",
+    "mariadb": "^2.5.3",
+    "pug": "^3.0.2",
+    "sequelize": "^6.6.2",
+    "shortid": "^2.2.16",
+    "slug": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
