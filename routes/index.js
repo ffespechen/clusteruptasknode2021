@@ -7,6 +7,7 @@ const { body } = require('express-validator');
 // Importamos el controlador
 const proyectosController = require('../controllers/proyectosController');
 const tareasController = require('../controllers/tareasController');
+const usuariosController = require('../controllers/usuariosController');
 
 // Middleware
 module.exports = function () {
@@ -38,6 +39,12 @@ module.exports = function () {
 
   // Tareas
   router.post('/proyectos/:url', tareasController.agregarTarea);
+  router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
+  router.delete('/tareas/:id', tareasController.eliminarTarea);
+
+  // Crear Cuenta
+  router.get('/crear-cuenta', usuariosController.formCrearCuenta);
+  router.post('/crear-cuenta', usuariosController.crearCuenta);
 
   return router;
 };
