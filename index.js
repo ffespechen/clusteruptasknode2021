@@ -7,6 +7,7 @@ const helpers = require('./helpers');
 const db = require('./config/db');
 // Importo el modelo
 require('./models/Proyectos');
+require('./models/Tareas');
 
 db.sync()
   .then(() => {
