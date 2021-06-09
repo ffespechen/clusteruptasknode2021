@@ -5,6 +5,7 @@ const helpers = require('./helpers');
 const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const passport = require('./config/passport');
 
 // Crear la conexión a la base de datos
 const db = require('./config/db');
@@ -51,6 +52,10 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+// Uso de passport para autenticación
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Agrego el helpers y lo dejo disponible para toda la app
 app.use((req, res, next) => {

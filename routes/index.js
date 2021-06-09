@@ -8,15 +8,25 @@ const { body } = require('express-validator');
 const proyectosController = require('../controllers/proyectosController');
 const tareasController = require('../controllers/tareasController');
 const usuariosController = require('../controllers/usuariosController');
+const authController = require('../controllers/authController');
 
 // Middleware
 module.exports = function () {
   // Ruta para el home
-  router.get('/', proyectosController.proyectosHome);
+  router.get(
+    '/',
+    authController.usuarioAutenticado,
+    proyectosController.proyectosHome
+  );
   //  Ruta para el nuevo proyecto
-  router.get('/nuevo-proyecto', proyectosController.formularioProyecto);
+  router.get(
+    '/nuevo-proyecto',
+    authController.usuarioAutenticado,
+    proyectosController.formularioProyecto
+  );
   router.post(
     '/nuevo-proyecto',
+    authController.usuarioAutenticado,
     body('nombre').trim().not().isEmpty().escape(),
     proyectosController.nuevoProyecto
   );
@@ -24,27 +34,58 @@ module.exports = function () {
   // Modificar el nombre del proyecto
   router.post(
     '/nuevo-proyecto/:id',
+    authController.usuarioAutenticado,
     body('nombre').trim().not().isEmpty().escape(),
     proyectosController.actualizarProyecto
   );
 
   // Listar Proyecto
-  router.get('/proyectos/:url', proyectosController.proyectoPorUrl);
+  router.get(
+    '/proyectos/:url',
+    authController.usuarioAutenticado,
+    proyectosController.proyectoPorUrl
+  );
 
   // Actualizar el proyecto
-  router.get('/proyecto/editar/:id', proyectosController.formularioEditar);
+  router.get(
+    '/proyecto/editar/:id',
+    authController.usuarioAutenticado,
+    proyectosController.formularioEditar
+  );
 
   // Eliminar Proyectos
-  router.delete('/proyectos/:url', proyectosController.eliminarProyecto);
+  router.delete(
+    '/proyectos/:url',
+    authController.usuarioAutenticado,
+    proyectosController.eliminarProyecto
+  );
 
   // Tareas
-  router.post('/proyectos/:url', tareasController.agregarTarea);
-  router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
-  router.delete('/tareas/:id', tareasController.eliminarTarea);
+  router.post(
+    '/proyectos/:url',
+    authController.usuarioAutenticado,
+    tareasController.agregarTarea
+  );
+  router.patch(
+    '/tareas/:id',
+    authController.usuarioAutenticado,
+    tareasController.cambiarEstadoTarea
+  );
+  router.delete(
+    '/tareas/:id',
+    authController.usuarioAutenticado,
+    tareasController.eliminarTarea
+  );
 
   // Crear Cuenta
   router.get('/crear-cuenta', usuariosController.formCrearCuenta);
   router.post('/crear-cuenta', usuariosController.crearCuenta);
+
+  // Iniciar sesión
+  router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
+  router.post('/iniciar-sesion', authController.autenticarUsuario);
+
+  router.get('/cerrar-la-sesion', authController.cerrarSesion);
 
   return router;
 };
