@@ -2,7 +2,12 @@ const Proyectos = require('../models/Proyectos');
 const Tareas = require('../models/Tareas');
 
 exports.proyectosHome = async (req, res) => {
-  const proyectos = await Proyectos.findAll();
+  const usuarioId = res.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId,
+    },
+  });
   res.render('index', {
     nombrePagina: 'PROYECTOS',
     proyectos,
@@ -10,7 +15,13 @@ exports.proyectosHome = async (req, res) => {
 };
 
 exports.formularioProyecto = async (req, res) => {
-  const proyectos = await Proyectos.findAll();
+  const usuarioId = res.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId,
+    },
+  });
+
   res.render('nuevoProyecto', {
     nombrePagina: 'NUEVO PROYECTO',
     proyectos,
@@ -18,7 +29,12 @@ exports.formularioProyecto = async (req, res) => {
 };
 
 exports.nuevoProyecto = async (req, res) => {
-  const proyectos = await Proyectos.findAll();
+  const usuarioId = res.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId,
+    },
+  });
   // Usando desestructuración, recupero los valores del campo
   const { nombre } = req.body;
 
@@ -44,18 +60,26 @@ exports.nuevoProyecto = async (req, res) => {
     //   .catch((err) => console.log(err.message));
     // Reemplazado por el hook en el model
     // const url = slug(nombre).toLowerCase();
+    const usuarioId = res.locals.usuario.id;
     const proyecto = await Proyectos.create({
       nombre,
+      usuarioId,
     });
     res.redirect('/');
   }
 };
 
 exports.proyectoPorUrl = async (req, res, next) => {
-  const proyectosPromesa = Proyectos.findAll();
+  const usuarioId = res.locals.usuario.id;
+  const proyectosPromesa = Proyectos.findAll({
+    where: {
+      usuarioId,
+    },
+  });
   const proyectoPromesa = Proyectos.findOne({
     where: {
       url: req.params.url,
+      usuarioId,
     },
   });
 
@@ -87,10 +111,16 @@ exports.proyectoPorUrl = async (req, res, next) => {
 };
 
 exports.formularioEditar = async (req, res) => {
-  const proyectosPromesa = Proyectos.findAll();
+  const usuarioId = res.locals.usuario.id;
+  const proyectosPromesa = Proyectos.findAll({
+    where: {
+      usuarioId,
+    },
+  });
   const proyectoPromesa = Proyectos.findOne({
     where: {
-      id: req.params.id,
+      url: req.params.url,
+      usuarioId,
     },
   });
 
@@ -107,7 +137,12 @@ exports.formularioEditar = async (req, res) => {
 };
 
 exports.actualizarProyecto = async (req, res) => {
-  const proyectos = await Proyectos.findAll();
+  const usuarioId = res.locals.usuario.id;
+  const proyectos = await Proyectos.findAll({
+    where: {
+      usuarioId,
+    },
+  });
   // Usando desestructuración, recupero los valores del campo
   const { nombre } = req.body;
 

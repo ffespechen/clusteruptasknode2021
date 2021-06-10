@@ -2,26 +2,25 @@ doctype html
 html(lang="en")
     head
         include partials/header
-    body.login
+    body.login 
         .contenedor-formulario 
-            h1 Inicia Sesión 
+            h1= nombrePagina
+            p Agrega tu e-mail para reestablecer la constraseña
 
             if locals.mensajes 
                 .alertas 
                     each categoria in Object.keys(locals.mensajes)
                         each error in mensajes[categoria]
                             .alerta(class=`${categoria}`)
-                                p= error            
+                                p= error
 
-            form#formulario.caja.caja-login(method="POST" action="/iniciar-sesion")
+
+            form.caja-login(method="POST" action="/reestablecer")
                 .campo 
                     label(for="email") E-mail: 
                     input(type="email", name="email" placeholder="Tu email" value= email required)
-                .campo 
-                    label(for="password") Password: 
-                    input(type="password", name="password" placeholder="Tu password" value= password required)
                 .campo.enviar 
-                    input.boton(type="submit" value="Iniciar Sesión")
+                    input.boton(type="submit" value="Recuperar Contraseña")
                 .campo.acciones
-                    a(href="/crear-cuenta") Crear una cuenta
-                    a(href="/reestablecer") Olvidaste tu contraseña?
+                    a(href="/crear-cuenta") Crear una cuenta    
+                    a(href="/iniciar-sesion") Volver al Login

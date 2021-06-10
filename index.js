@@ -6,6 +6,7 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const passport = require('./config/passport');
+require('dotenv').config({ path: 'variables.env' });
 
 // Crear la conexión a la base de datos
 const db = require('./config/db');
@@ -61,11 +62,16 @@ app.use(passport.session());
 app.use((req, res, next) => {
   res.locals.vardump = helpers.vardump;
   res.locals.mensajes = req.flash();
+  res.locals.usuario = { ...req.user } || null;
   next();
 });
 
 app.use('/', routes());
-// Definir el puerto al que escucha
 
-const port = 3000;
-app.listen(port);
+// Definir el puerto al que escucha
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
+
+app.listen(port, (host) => {
+  console.log('El Servidor está funcionando !!');
+});
