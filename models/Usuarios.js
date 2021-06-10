@@ -37,6 +37,12 @@ const Usuarios = db.define(
         },
       },
     },
+    activo: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0,
+    },
+    token: Sequelize.STRING,
+    expiracion: Sequelize.DATE,
   },
   {
     hooks: {
@@ -56,6 +62,6 @@ Usuarios.prototype.verificarPassword = function (password) {
   return resultado;
 };
 
-// Usuarios.hasMany(Proyectos);
+Usuarios.hasMany(Proyectos);
 
 module.exports = Usuarios;
