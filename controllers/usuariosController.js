@@ -26,7 +26,7 @@ exports.crearCuenta = async (req, res) => {
     });
 
     // crear una URL de confirmar
-    const confirmar = `http://${req.headers.host}/confirmar/${email}`;
+    const confirmarUrl = `http://${req.headers.host}/confirmar/${email}`;
 
     // crear el objeto de usuario
     const usuario = {
